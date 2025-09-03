@@ -1,7 +1,7 @@
 'use client'
 
 // hooks
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 
 // icons
@@ -88,7 +88,7 @@ import { HeroGeometric } from '@/components/shape-landing-hero'
 import { LoadingState, ErrorState } from '@/components/loading-states'
 import { CoachCard } from '@/components/card/coach-card'
 
-export default function HomePage() {
+function HomeContent() {
   // #region 路由和URL參數
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -1014,5 +1014,14 @@ export default function HomePage() {
 
       <Footer />
     </>
+  )
+}
+
+// 主要導出組件，包含 Suspense 邊界
+export default function HomePage() {
+  return (
+    <Suspense fallback={<LoadingState message="載入場館資料中..." />}>
+      <HomeContent />
+    </Suspense>
   )
 }

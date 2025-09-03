@@ -120,11 +120,18 @@ const HamburgerIcon = ({ className, ...props }) => (
 )
 
 // Default navigation links
-const defaultNavigationLinks = [
+/* const defaultNavigationLinks = [
   { href: '/venue', label: '場地預訂' },
   { href: '/shop', label: '購物商城' },
   { href: '/team', label: '揪團組隊' },
   { href: '/course', label: '課程報名' },
+] */
+
+const defaultNavigationLinks = [
+  { href: '/venue', label: '場地預訂' },
+  { href: '/', label: '購物商城' },
+  { href: '/', label: '揪團組隊' },
+  { href: '/', label: '課程報名' },
 ]
 
 // User Menu Component
