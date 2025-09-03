@@ -1,4 +1,4 @@
-// firebase.js
+/* // firebase.js
 import { initializeApp } from 'firebase/app'
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 
@@ -66,3 +66,4 @@ auth.onAuthStateChanged(
 )
 
 export { auth, googleProvider }
+ */

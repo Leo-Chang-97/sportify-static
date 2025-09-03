@@ -321,7 +321,7 @@ export function AuthProvider({ children }) {
   }
 
   // Google 登入函數
-  const googleLogin = async (idToken) => {
+  /* const googleLogin = async (idToken) => {
     try {
       const res = await fetch(`${API_SERVER}/auth/firebase-login`, {
         method: 'POST',
@@ -350,7 +350,7 @@ export function AuthProvider({ children }) {
         message: '網路錯誤，請稍後再試',
       }
     }
-  }
+  } */
 
   return (
     <AuthContext.Provider
@@ -361,7 +361,7 @@ export function AuthProvider({ children }) {
         logout,
         updateUserProfile,
         uploadAvatar,
-        googleLogin,
+        // googleLogin,
         setUser,
         isAuthenticated: !!user,
         isLoading,

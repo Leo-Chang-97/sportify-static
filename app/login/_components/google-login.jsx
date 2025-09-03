@@ -1,4 +1,4 @@
-import { auth, googleProvider } from '@/app/firebase'
+// import { auth, googleProvider } from '@/app/firebase'
 import { Button } from '@/components/ui/button'
 import { signInWithPopup } from 'firebase/auth'
 import { useAuth } from '@/contexts/auth-context'
@@ -11,7 +11,7 @@ export default function GoogleLoginButton() {
   const { googleLogin, user, isAuthenticated } = useAuth()
   const router = useRouter()
 
-  const handleGoogleLogin = async (e) => {
+  /* const handleGoogleLogin = async (e) => {
     // 阻止事件冒泡，避免觸發表單提交
     e.preventDefault()
     e.stopPropagation()
@@ -85,7 +85,7 @@ export default function GoogleLoginButton() {
       // 處理其他未知錯誤
       toast.error('登入失敗，請稍後再試')
     }
-  }
+  } */
 
   // 監聽認證狀態變化
   useEffect(() => {
@@ -96,7 +96,7 @@ export default function GoogleLoginButton() {
     <Button
       variant="ghost"
       type="button"
-      onClick={handleGoogleLogin}
+      // onClick={handleGoogleLogin}
       className="transition-colors w-full shadow-sm border border-muted"
     >
       <div className="flex items-center justify-center">
