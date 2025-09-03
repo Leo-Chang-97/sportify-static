@@ -60,7 +60,7 @@ function CoachCardContent({ className, data, ...props }) {
         <div className="relative aspect-3/4 w-full h-full overflow-hidden rounded-lg">
           {data?.avatar && (
             <Image
-              alt={data?.member?.name}
+              alt={data?.name}
               className={cn(
                 'object-cover transition-transform duration-300 ease-in-out rounded-lg',
                 isHovered && 'scale-105'
@@ -80,10 +80,10 @@ function CoachCardContent({ className, data, ...props }) {
                 group-hover:text-highlight
               `}
           >
-            {data?.member?.name}
+            {data?.name}
           </h3>
           <span className="text-sm md:text-base text-muted-foreground">
-            {data?.sport?.name}
+            {data?.sport}
           </span>
         </CardContent>
       </Card>
