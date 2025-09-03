@@ -2,15 +2,11 @@
 
 // hooks
 import React, { useState, useEffect, useMemo, Suspense } from 'react'
+import { useVenue } from '@/contexts/venue-context'
 
 // Icon
 import { FaXmark, FaCheck } from 'react-icons/fa6'
 import { IconCircleCheckFilled, IconLoader } from '@tabler/icons-react'
-
-// API 請求
-import { fetchReservation } from '@/api/venue/reservation'
-import { fetchCenter } from '@/api/venue/center'
-import { getCenterImageUrl } from '@/api/venue/image'
 
 // next 元件
 import Link from 'next/link'
@@ -46,85 +42,18 @@ import { Navbar } from '@/components/navbar'
 import BreadcrumbAuto from '@/components/breadcrumb-auto'
 import Step from '@/components/step'
 import Footer from '@/components/footer'
-import { LoadingState, ErrorState } from '@/components/loading-states'
 
 // 將使用 useSearchParams 的邏輯抽取到單獨的組件
 function SuccessPageContent() {
   // #region 路由和URL參數
   const searchParams = useSearchParams()
+  const reservationId = searchParams.get('reservationId')
+  const { venueData } = useVenue()
 
   // #region 狀態管理
   const [isSuccess, setIsSuccess] = useState(true)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
 
-  const [centerData, setCenterData] = useState(null)
-  const [centerId, setCenterId] = useState('')
-  const reservationId = searchParams.get('reservationId')
-  const [reservationData, setReservationData] = useState(null)
-
-  // #region 副作用處理
-
-  // #region Reservation訂單資料
-  useEffect(() => {
-    const fetchOrderData = async () => {
-      if (!reservationId) {
-        setError('未找到訂單 ID')
-        setIsSuccess(false)
-        setLoading(false)
-        return
-      }
-
-      try {
-        setLoading(true)
-        const result = await fetchReservation(reservationId)
-
-        if (result.success && result.record) {
-          setReservationData(result.record)
-          setIsSuccess(true)
-
-          // 提取 centerId 並取得場館資料
-          const firstSlot = result.record.courtTimeSlots?.[0]
-          if (firstSlot && firstSlot.centerId) {
-            setCenterId(firstSlot.centerId)
-          }
-        } else {
-          setError(result.message || '取得訂單資料失敗')
-          setIsSuccess(false)
-        }
-      } catch (err) {
-        console.error('取得訂單資料錯誤:', err)
-        setError('載入訂單資料時發生錯誤')
-        setIsSuccess(false)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchOrderData()
-  }, [reservationId])
-
-  // #region Center中心資料
-  useEffect(() => {
-    const fetchCenterData = async () => {
-      if (!centerId) return
-
-      try {
-        const centerResult = await fetchCenter(centerId)
-
-        if (centerResult.success && centerResult.record) {
-          setCenterData(centerResult.record)
-        } else {
-          console.error('取得 Center 資料失敗:', centerResult.message)
-        }
-      } catch (err) {
-        console.error('Error fetching center detail:', err)
-        console.error('載入場館資料失敗')
-      }
-    }
-
-    fetchCenterData()
-  }, [centerId])
+  // #region 副作用處理 - 靜態版本移除所有 API 請求
 
   // #region 事件處理函數
   // 格式化價格，加上千分位逗號
@@ -132,13 +61,8 @@ function SuccessPageContent() {
     return Number(price).toLocaleString('zh-TW')
   }
 
-  // 計算總金額 (從 courtTimeSlots 計算或使用 price)
-  const totalPrice = reservationData?.price || 0
-
-  // #region 載入和錯誤狀態處理
-  if (loading) {
-    return <LoadingState message="載入訂單資料中..." />
-  }
+  // 從 context 取得總金額
+  const totalPrice = venueData?.totalPrice || 0
 
   // #region 資料顯示選項
   const steps = [
@@ -150,37 +74,37 @@ function SuccessPageContent() {
   const summaries = [
     {
       key: '訂單編號',
-      value: reservationId || '未知',
+      value: reservationId || 'ORDER-' + Date.now(),
     },
     {
       key: '預訂人',
-      value: reservationData?.memberName || '未知',
+      value: venueData?.userInfo?.name || '未知',
     },
     {
       key: '電話號碼',
-      value: reservationData?.member?.phone || '未知',
+      value: venueData?.userInfo?.phone || '未知',
     },
     {
       key: '建立時間',
-      value: reservationData?.createdAt || '未知',
+      value: new Date().toLocaleString('zh-TW'),
     },
     {
       key: '發票號碼',
-      value: reservationData?.invoiceNumber || '未知',
+      value: 'INV-' + Date.now(),
     },
     {
       key: '發票類型',
       value: (
         <>
-          {reservationData?.invoice.name || '未知'}
-          {reservationData?.invoiceId === 2 && (
+          {venueData?.receiptType || '未知'}
+          {venueData?.userInfo?.companyId && (
             <span className="ml-2 text-muted-foreground">
-              {reservationData?.tax ? `${reservationData.tax}` : ''}
+              {venueData.userInfo.companyId}
             </span>
           )}
-          {reservationData?.invoiceId === 3 && (
+          {venueData?.userInfo?.carrierId && (
             <span className="ml-2 text-muted-foreground">
-              {reservationData?.carrier ? `${reservationData.carrier}` : ''}
+              {venueData.userInfo.carrierId}
             </span>
           )}
         </>
@@ -188,19 +112,15 @@ function SuccessPageContent() {
     },
     {
       key: '付款方式',
-      value: reservationData?.payment?.name || '未知',
+      value: venueData?.paymentMethod || '未知',
     },
     {
       key: '狀態',
       value: (
         <>
           <Badge variant="outline" className="text-muted-foreground px-1.5">
-            {reservationData?.status?.name === '已付款' ? (
-              <IconCircleCheckFilled className="fill-green-500 dark:fill-green-400" />
-            ) : (
-              <IconLoader />
-            )}
-            {reservationData?.status?.name || '未知'}
+            <IconCircleCheckFilled className="fill-green-500 dark:fill-green-400" />
+            已付款
           </Badge>
         </>
       ),
@@ -209,7 +129,7 @@ function SuccessPageContent() {
       key: '訂單金額',
       value: (
         <span className="text-lg font-bold text-primary">
-          NT$ {formatPrice(reservationData?.price) || '未知'}
+          NT$ {formatPrice(totalPrice)}
         </span>
       ),
     },
@@ -314,59 +234,48 @@ function SuccessPageContent() {
                       <h3 className="text-lg font-semibold">場館資訊</h3>
                       <div className="text-sm text-muted-foreground space-y-1">
                         <div className="text-base text-primary">
-                          {centerData?.name || '載入中...'}
+                          {venueData?.center || '未知場館'}
                         </div>
-                        <div>{centerData?.address || '載入中...'}</div>
-                        <div>
-                          運動:{' '}
-                          {reservationData?.courtTimeSlots[0]?.sportName ||
-                            '載入中...'}
-                        </div>
+                        <div>台北市北投區石牌路一段39巷100號</div>
+                        <div>運動: {venueData?.sport || '未知運動'}</div>
                       </div>
                     </div>
                     {/* 預約圖片 */}
-                    {centerData &&
-                    centerData.images &&
-                    Array.isArray(centerData.images) &&
-                    centerData.images.length > 0 ? (
-                      <div className="w-full md:w-50 min-w-0 flex-shrink-0 overflow-hidden rounded-lg">
-                        <AspectRatio ratio={4 / 3} className="bg-muted">
-                          <Image
-                            alt={centerData.name || '場館圖片'}
-                            className="object-cover"
-                            fill
-                            priority
-                            sizes="(max-width: 768px) 100vw, 320px"
-                            src={getCenterImageUrl(centerData.images[0])}
-                          />
-                        </AspectRatio>
-                      </div>
-                    ) : (
-                      <div className="w-full md:w-50 min-w-0 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200 flex items-center justify-center">
-                        <AspectRatio
-                          ratio={4 / 3}
-                          className="bg-muted flex items-center justify-center"
-                        >
-                          <span className="text-gray-500">無圖片</span>
-                        </AspectRatio>
-                      </div>
-                    )}
+                    <div className="w-full md:w-50 min-w-0 flex-shrink-0 overflow-hidden rounded-lg">
+                      <AspectRatio ratio={4 / 3} className="bg-muted">
+                        <Image
+                          alt="場館圖片"
+                          className="object-cover"
+                          fill
+                          priority
+                          sizes="(max-width: 768px) 100vw, 320px"
+                          src="https://images.unsplash.com/photo-1626158610593-687879be50b7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        />
+                      </AspectRatio>
+                    </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {/* 預約日期 */}
                     <div className="space-y-2">
                       <h3 className="text-lg font-semibold">預約日期</h3>
                       <div className="text-base text-primary">
-                        {reservationData?.date || '未知日期'}
+                        {venueData?.selectedDate
+                          ? venueData.selectedDate.toLocaleDateString('zh-TW', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              weekday: 'long',
+                            })
+                          : '未知日期'}
                       </div>
                     </div>
 
                     {/* 場地時段 */}
                     <div className="space-y-2">
                       <h3 className="text-lg font-semibold">場地時段</h3>
-                      {reservationData?.courtTimeSlots?.length > 0 ? (
+                      {venueData?.timeSlots?.length > 0 ? (
                         <div className="space-y-2">
-                          {reservationData.courtTimeSlots.map((slot, index) => (
+                          {venueData.timeSlots.map((slot, index) => (
                             <Alert
                               key={index}
                               className="text-sm text-muted-foreground bg-muted p-2 rounded"
@@ -375,9 +284,9 @@ function SuccessPageContent() {
                                 {slot.courtName}
                               </AlertTitle>
                               <AlertDescription className="flex justify-between">
-                                <span>{slot.timeLabel}</span>
+                                <span>{slot.timeRange}</span>
                                 <span className="text-primary">
-                                  NT$ {slot.price}
+                                  NT$ {formatPrice(slot.price)}
                                 </span>
                               </AlertDescription>
                             </Alert>
@@ -389,18 +298,6 @@ function SuccessPageContent() {
                         </div>
                       )}
                     </div>
-
-                    {/* 總計 */}
-                    {/* <div className="pt-2 border-t">
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium text-foreground">
-                          總計
-                        </span>
-                        <span className="text-lg font-bold text-primary">
-                          NT$ {totalPrice}
-                        </span>
-                      </div>
-                    </div> */}
                   </CardContent>
                 </Card>
               </section>

@@ -52,11 +52,11 @@ function VenueListContent() {
   const [keyword, setKeyword] = useState(queryParams.keyword || '')
   const safeKeyword = typeof keyword === 'string' ? keyword.trim() : ''
 
-  const [locations, setLocations] = useState([])
-  const [sports, setSports] = useState([])
+  // const [locations, setLocations] = useState([])
+  // const [sports, setSports] = useState([])
 
   // #region 數據獲取
-  const {
+  /* const {
     data,
     isLoading: isDataLoading,
     error,
@@ -73,11 +73,990 @@ function VenueListContent() {
       // fallbackData: { rows: [], totalRows: 0, page: 1, totalPages: 0 }, // 提供初始數據
       fallbackData: null, // 改為 null，避免誤判為沒有數據
     }
-  )
+  ) */
 
+  const data = {
+    code: 200,
+    success: true,
+    page: 1,
+    perPage: 8,
+    totalRows: 55,
+    totalPages: 7,
+    rows: [
+      {
+        id: 1,
+        name: '北投運動中心',
+        locationId: 1,
+        address: '台北市北投區石牌路一段39巷100號',
+        latitude: 25.11669482631824,
+        longitude: 121.5099281673907,
+        location: {
+          id: 1,
+          name: '台北市',
+        },
+        centerSports: [
+          {
+            centerId: 1,
+            sportId: 2,
+            sport: {
+              id: 2,
+              name: '羽球',
+              iconKey: 'badminton',
+            },
+          },
+          {
+            centerId: 1,
+            sportId: 3,
+            sport: {
+              id: 3,
+              name: '桌球',
+              iconKey: 'tabletennis',
+            },
+          },
+          {
+            centerId: 1,
+            sportId: 5,
+            sport: {
+              id: 5,
+              name: '排球',
+              iconKey: 'volleyball',
+            },
+          },
+          {
+            centerId: 1,
+            sportId: 6,
+            sport: {
+              id: 6,
+              name: '壁球',
+              iconKey: 'squash',
+            },
+          },
+          {
+            centerId: 1,
+            sportId: 7,
+            sport: {
+              id: 7,
+              name: '足球',
+              iconKey: 'soccer',
+            },
+          },
+          {
+            centerId: 1,
+            sportId: 8,
+            sport: {
+              id: 8,
+              name: '棒球',
+              iconKey: 'baseball',
+            },
+          },
+        ],
+        images: [
+          'center01.jpg',
+          'center01-1.jpg',
+          'center01-2.jpg',
+          'center01-3.jpg',
+          'center01-4.jpg',
+        ],
+        ratings: [
+          {
+            rating: 3,
+          },
+          {
+            rating: 3,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 3,
+          },
+          {
+            rating: 3,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 1,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 1,
+          },
+        ],
+        sports: [
+          {
+            id: 2,
+            name: '羽球',
+            iconKey: 'badminton',
+          },
+          {
+            id: 3,
+            name: '桌球',
+            iconKey: 'tabletennis',
+          },
+          {
+            id: 5,
+            name: '排球',
+            iconKey: 'volleyball',
+          },
+          {
+            id: 6,
+            name: '壁球',
+            iconKey: 'squash',
+          },
+          {
+            id: 7,
+            name: '足球',
+            iconKey: 'soccer',
+          },
+          {
+            id: 8,
+            name: '棒球',
+            iconKey: 'baseball',
+          },
+        ],
+        averageRating: '3.3',
+        ratingCount: 12,
+      },
+      {
+        id: 2,
+        name: '士林運動中心',
+        locationId: 1,
+        address: '台北市士林區士商路一號',
+        latitude: 25.08958773617637,
+        longitude: 121.5216052187015,
+        location: {
+          id: 1,
+          name: '台北市',
+        },
+        centerSports: [
+          {
+            centerId: 2,
+            sportId: 1,
+            sport: {
+              id: 1,
+              name: '籃球',
+              iconKey: 'basketball',
+            },
+          },
+          {
+            centerId: 2,
+            sportId: 5,
+            sport: {
+              id: 5,
+              name: '排球',
+              iconKey: 'volleyball',
+            },
+          },
+          {
+            centerId: 2,
+            sportId: 7,
+            sport: {
+              id: 7,
+              name: '足球',
+              iconKey: 'soccer',
+            },
+          },
+          {
+            centerId: 2,
+            sportId: 8,
+            sport: {
+              id: 8,
+              name: '棒球',
+              iconKey: 'baseball',
+            },
+          },
+        ],
+        images: [
+          'center02.jpg',
+          'center02-1.jpg',
+          'center02-2.jpg',
+          'center02-3.jpg',
+          'center02-4.jpg',
+        ],
+        ratings: [
+          {
+            rating: 4,
+          },
+          {
+            rating: 3,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 2,
+          },
+          {
+            rating: 3,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 5,
+          },
+        ],
+        sports: [
+          {
+            id: 1,
+            name: '籃球',
+            iconKey: 'basketball',
+          },
+          {
+            id: 5,
+            name: '排球',
+            iconKey: 'volleyball',
+          },
+          {
+            id: 7,
+            name: '足球',
+            iconKey: 'soccer',
+          },
+          {
+            id: 8,
+            name: '棒球',
+            iconKey: 'baseball',
+          },
+        ],
+        averageRating: '4.0',
+        ratingCount: 9,
+      },
+      {
+        id: 3,
+        name: '內湖運動中心',
+        locationId: 1,
+        address: '台北市內湖區洲子街12號',
+        latitude: 25.07826354616702,
+        longitude: 121.574840004117,
+        location: {
+          id: 1,
+          name: '台北市',
+        },
+        centerSports: [
+          {
+            centerId: 3,
+            sportId: 1,
+            sport: {
+              id: 1,
+              name: '籃球',
+              iconKey: 'basketball',
+            },
+          },
+          {
+            centerId: 3,
+            sportId: 2,
+            sport: {
+              id: 2,
+              name: '羽球',
+              iconKey: 'badminton',
+            },
+          },
+          {
+            centerId: 3,
+            sportId: 4,
+            sport: {
+              id: 4,
+              name: '網球',
+              iconKey: 'tennis',
+            },
+          },
+          {
+            centerId: 3,
+            sportId: 7,
+            sport: {
+              id: 7,
+              name: '足球',
+              iconKey: 'soccer',
+            },
+          },
+          {
+            centerId: 3,
+            sportId: 8,
+            sport: {
+              id: 8,
+              name: '棒球',
+              iconKey: 'baseball',
+            },
+          },
+          {
+            centerId: 3,
+            sportId: 9,
+            sport: {
+              id: 9,
+              name: '撞球',
+              iconKey: 'billiard',
+            },
+          },
+        ],
+        images: [
+          'center03.jpg',
+          'center03-1.jpg',
+          'center03-2.jpg',
+          'center03-3.jpg',
+          'center03-4.jpg',
+        ],
+        ratings: [
+          {
+            rating: 2,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 2,
+          },
+        ],
+        sports: [
+          {
+            id: 1,
+            name: '籃球',
+            iconKey: 'basketball',
+          },
+          {
+            id: 2,
+            name: '羽球',
+            iconKey: 'badminton',
+          },
+          {
+            id: 4,
+            name: '網球',
+            iconKey: 'tennis',
+          },
+          {
+            id: 7,
+            name: '足球',
+            iconKey: 'soccer',
+          },
+          {
+            id: 8,
+            name: '棒球',
+            iconKey: 'baseball',
+          },
+          {
+            id: 9,
+            name: '撞球',
+            iconKey: 'billiard',
+          },
+        ],
+        averageRating: '3.4',
+        ratingCount: 5,
+      },
+      {
+        id: 4,
+        name: '南港運動中心',
+        locationId: 1,
+        address: '台北市南港區玉成街69號',
+        latitude: 25.04898765165404,
+        longitude: 121.5818428170937,
+        location: {
+          id: 1,
+          name: '台北市',
+        },
+        centerSports: [
+          {
+            centerId: 4,
+            sportId: 1,
+            sport: {
+              id: 1,
+              name: '籃球',
+              iconKey: 'basketball',
+            },
+          },
+          {
+            centerId: 4,
+            sportId: 2,
+            sport: {
+              id: 2,
+              name: '羽球',
+              iconKey: 'badminton',
+            },
+          },
+          {
+            centerId: 4,
+            sportId: 3,
+            sport: {
+              id: 3,
+              name: '桌球',
+              iconKey: 'tabletennis',
+            },
+          },
+          {
+            centerId: 4,
+            sportId: 4,
+            sport: {
+              id: 4,
+              name: '網球',
+              iconKey: 'tennis',
+            },
+          },
+          {
+            centerId: 4,
+            sportId: 8,
+            sport: {
+              id: 8,
+              name: '棒球',
+              iconKey: 'baseball',
+            },
+          },
+        ],
+        images: [
+          'center04.jpg',
+          'center04-1.jpg',
+          'center04-2.jpg',
+          'center04-3.jpg',
+          'center04-4.jpg',
+        ],
+        ratings: [
+          {
+            rating: 1,
+          },
+          {
+            rating: 2,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 1,
+          },
+          {
+            rating: 4,
+          },
+        ],
+        sports: [
+          {
+            id: 1,
+            name: '籃球',
+            iconKey: 'basketball',
+          },
+          {
+            id: 2,
+            name: '羽球',
+            iconKey: 'badminton',
+          },
+          {
+            id: 3,
+            name: '桌球',
+            iconKey: 'tabletennis',
+          },
+          {
+            id: 4,
+            name: '網球',
+            iconKey: 'tennis',
+          },
+          {
+            id: 8,
+            name: '棒球',
+            iconKey: 'baseball',
+          },
+        ],
+        averageRating: '2.9',
+        ratingCount: 7,
+      },
+      {
+        id: 5,
+        name: '松山運動中心',
+        locationId: 1,
+        address: '台北市松山區敦化北路1號',
+        latitude: 25.04873955173236,
+        longitude: 121.5504276182828,
+        location: {
+          id: 1,
+          name: '台北市',
+        },
+        centerSports: [
+          {
+            centerId: 5,
+            sportId: 2,
+            sport: {
+              id: 2,
+              name: '羽球',
+              iconKey: 'badminton',
+            },
+          },
+          {
+            centerId: 5,
+            sportId: 5,
+            sport: {
+              id: 5,
+              name: '排球',
+              iconKey: 'volleyball',
+            },
+          },
+          {
+            centerId: 5,
+            sportId: 6,
+            sport: {
+              id: 6,
+              name: '壁球',
+              iconKey: 'squash',
+            },
+          },
+          {
+            centerId: 5,
+            sportId: 7,
+            sport: {
+              id: 7,
+              name: '足球',
+              iconKey: 'soccer',
+            },
+          },
+          {
+            centerId: 5,
+            sportId: 9,
+            sport: {
+              id: 9,
+              name: '撞球',
+              iconKey: 'billiard',
+            },
+          },
+        ],
+        images: [
+          'center05.jpg',
+          'center05-1.jpg',
+          'center05-2.jpg',
+          'center05-3.jpg',
+          'center05-4.jpg',
+        ],
+        ratings: [
+          {
+            rating: 1,
+          },
+          {
+            rating: 1,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 3,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 1,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 4,
+          },
+        ],
+        sports: [
+          {
+            id: 2,
+            name: '羽球',
+            iconKey: 'badminton',
+          },
+          {
+            id: 5,
+            name: '排球',
+            iconKey: 'volleyball',
+          },
+          {
+            id: 6,
+            name: '壁球',
+            iconKey: 'squash',
+          },
+          {
+            id: 7,
+            name: '足球',
+            iconKey: 'soccer',
+          },
+          {
+            id: 9,
+            name: '撞球',
+            iconKey: 'billiard',
+          },
+        ],
+        averageRating: '3.4',
+        ratingCount: 10,
+      },
+      {
+        id: 6,
+        name: '信義運動中心',
+        locationId: 1,
+        address: '台北市信義區松勤街100號',
+        latitude: 25.03186371428614,
+        longitude: 121.5668001898148,
+        location: {
+          id: 1,
+          name: '台北市',
+        },
+        centerSports: [
+          {
+            centerId: 6,
+            sportId: 1,
+            sport: {
+              id: 1,
+              name: '籃球',
+              iconKey: 'basketball',
+            },
+          },
+          {
+            centerId: 6,
+            sportId: 4,
+            sport: {
+              id: 4,
+              name: '網球',
+              iconKey: 'tennis',
+            },
+          },
+          {
+            centerId: 6,
+            sportId: 5,
+            sport: {
+              id: 5,
+              name: '排球',
+              iconKey: 'volleyball',
+            },
+          },
+          {
+            centerId: 6,
+            sportId: 6,
+            sport: {
+              id: 6,
+              name: '壁球',
+              iconKey: 'squash',
+            },
+          },
+          {
+            centerId: 6,
+            sportId: 7,
+            sport: {
+              id: 7,
+              name: '足球',
+              iconKey: 'soccer',
+            },
+          },
+          {
+            centerId: 6,
+            sportId: 9,
+            sport: {
+              id: 9,
+              name: '撞球',
+              iconKey: 'billiard',
+            },
+          },
+        ],
+        images: [
+          'center06.jpg',
+          'center06-1.jpg',
+          'center06-2.jpg',
+          'center06-3.jpg',
+          'center06-4.jpg',
+        ],
+        ratings: [
+          {
+            rating: 5,
+          },
+          {
+            rating: 3,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 1,
+          },
+          {
+            rating: 2,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 3,
+          },
+          {
+            rating: 3,
+          },
+          {
+            rating: 4,
+          },
+        ],
+        sports: [
+          {
+            id: 1,
+            name: '籃球',
+            iconKey: 'basketball',
+          },
+          {
+            id: 4,
+            name: '網球',
+            iconKey: 'tennis',
+          },
+          {
+            id: 5,
+            name: '排球',
+            iconKey: 'volleyball',
+          },
+          {
+            id: 6,
+            name: '壁球',
+            iconKey: 'squash',
+          },
+          {
+            id: 7,
+            name: '足球',
+            iconKey: 'soccer',
+          },
+          {
+            id: 9,
+            name: '撞球',
+            iconKey: 'billiard',
+          },
+        ],
+        averageRating: '3.4',
+        ratingCount: 9,
+      },
+      {
+        id: 7,
+        name: '大同運動中心',
+        locationId: 1,
+        address: '台北市大同區大龍街51號',
+        latitude: 25.06548757855993,
+        longitude: 121.516113471042,
+        location: {
+          id: 1,
+          name: '台北市',
+        },
+        centerSports: [
+          {
+            centerId: 7,
+            sportId: 2,
+            sport: {
+              id: 2,
+              name: '羽球',
+              iconKey: 'badminton',
+            },
+          },
+          {
+            centerId: 7,
+            sportId: 3,
+            sport: {
+              id: 3,
+              name: '桌球',
+              iconKey: 'tabletennis',
+            },
+          },
+          {
+            centerId: 7,
+            sportId: 9,
+            sport: {
+              id: 9,
+              name: '撞球',
+              iconKey: 'billiard',
+            },
+          },
+        ],
+        images: [
+          'center07.jpg',
+          'center07-1.jpg',
+          'center07-2.jpg',
+          'center07-3.jpg',
+          'center07-4.jpg',
+        ],
+        ratings: [
+          {
+            rating: 4,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 2,
+          },
+          {
+            rating: 1,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 5,
+          },
+          {
+            rating: 3,
+          },
+          {
+            rating: 2,
+          },
+        ],
+        sports: [
+          {
+            id: 2,
+            name: '羽球',
+            iconKey: 'badminton',
+          },
+          {
+            id: 3,
+            name: '桌球',
+            iconKey: 'tabletennis',
+          },
+          {
+            id: 9,
+            name: '撞球',
+            iconKey: 'billiard',
+          },
+        ],
+        averageRating: '3.4',
+        ratingCount: 10,
+      },
+      {
+        id: 8,
+        name: '中山運動中心',
+        locationId: 1,
+        address: '台北市中山區中山北路二段44巷2號',
+        latitude: 25.05504735988151,
+        longitude: 121.5213985484406,
+        location: {
+          id: 1,
+          name: '台北市',
+        },
+        centerSports: [
+          {
+            centerId: 8,
+            sportId: 2,
+            sport: {
+              id: 2,
+              name: '羽球',
+              iconKey: 'badminton',
+            },
+          },
+          {
+            centerId: 8,
+            sportId: 3,
+            sport: {
+              id: 3,
+              name: '桌球',
+              iconKey: 'tabletennis',
+            },
+          },
+          {
+            centerId: 8,
+            sportId: 5,
+            sport: {
+              id: 5,
+              name: '排球',
+              iconKey: 'volleyball',
+            },
+          },
+          {
+            centerId: 8,
+            sportId: 7,
+            sport: {
+              id: 7,
+              name: '足球',
+              iconKey: 'soccer',
+            },
+          },
+        ],
+        images: [
+          'center08.jpg',
+          'center08-1.jpg',
+          'center08-2.jpg',
+          'center08-3.jpg',
+          'center08-4.jpg',
+        ],
+        ratings: [
+          {
+            rating: 1,
+          },
+          {
+            rating: 2,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 3,
+          },
+          {
+            rating: 3,
+          },
+          {
+            rating: 4,
+          },
+          {
+            rating: 5,
+          },
+        ],
+        sports: [
+          {
+            id: 2,
+            name: '羽球',
+            iconKey: 'badminton',
+          },
+          {
+            id: 3,
+            name: '桌球',
+            iconKey: 'tabletennis',
+          },
+          {
+            id: 5,
+            name: '排球',
+            iconKey: 'volleyball',
+          },
+          {
+            id: 7,
+            name: '足球',
+            iconKey: 'soccer',
+          },
+        ],
+        averageRating: '3.1',
+        ratingCount: 7,
+      },
+    ],
+  }
   // #region 副作用處理
   // 載入下拉選單選項
-  useEffect(() => {
+  /* useEffect(() => {
     const loadData = async () => {
       try {
         const locationData = await fetchLocationOptions()
@@ -91,7 +1070,7 @@ function VenueListContent() {
       }
     }
     loadData()
-  }, [])
+  }, []) */
 
   // #region 事件處理函數
   const handleSearch = (keyword, customSportId) => {
@@ -146,7 +1125,7 @@ function VenueListContent() {
   //  #region 載入和錯誤狀態處理
 
   // 只有在沒有任何數據時才顯示全屏載入
-  if (isDataLoading && data === null)
+  /* if (isDataLoading && data === null)
     return <LoadingState message="載入場館資料中..." />
   if (error)
     return (
@@ -157,10 +1136,63 @@ function VenueListContent() {
         backUrl="/"
         backLabel="返回首頁"
       />
-    )
+    ) */
 
   // #region 資料顯示選項
-
+  const locations = [
+    { id: 1, name: '台北市' },
+    { id: 2, name: '新北市' },
+    { id: 3, name: '桃園市' },
+    { id: 4, name: '臺中市' },
+    { id: 5, name: '高雄市' },
+  ]
+  const sports = [
+    {
+      id: 1,
+      name: '籃球',
+      iconKey: 'basketball',
+    },
+    {
+      id: 2,
+      name: '羽球',
+      iconKey: 'badminton',
+    },
+    {
+      id: 3,
+      name: '桌球',
+      iconKey: 'tabletennis',
+    },
+    {
+      id: 4,
+      name: '網球',
+      iconKey: 'tennis',
+    },
+    {
+      id: 5,
+      name: '排球',
+      iconKey: 'volleyball',
+    },
+    {
+      id: 6,
+      name: '壁球',
+      iconKey: 'squash',
+    },
+    {
+      id: 7,
+      name: '足球',
+      iconKey: 'soccer',
+    },
+    {
+      id: 8,
+      name: '棒球',
+      iconKey: 'baseball',
+    },
+    {
+      id: 9,
+      name: '撞球',
+      iconKey: 'billiard',
+    },
+  ]
   // 評分系統選項
   const ratingOptions = [
     { label: <>全部</>, value: 'all' },

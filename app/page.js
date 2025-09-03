@@ -104,8 +104,8 @@ export default function HomePage() {
   const [keyword, setKeyword] = useState('')
   const [coachId, setCoachId] = useState('')
 
-  const [locations, setLocations] = useState([])
-  const [sports, setSports] = useState([])
+  // const [locations, setLocations] = useState([])
+  // const [sports, setSports] = useState([])
   const [brandIdMap, setBrandIdMap] = useState({})
   const [coaches, setCoaches] = useState([])
 
@@ -306,6 +306,60 @@ export default function HomePage() {
       address: '台北市內湖區洲子街12號',
       image: '/center-pic/center03.jpg',
       averageRating: 3.7,
+    },
+  ]
+  const locations = [
+    { id: 1, name: '台北市' },
+    { id: 2, name: '新北市' },
+    { id: 3, name: '桃園市' },
+    { id: 4, name: '臺中市' },
+    { id: 5, name: '高雄市' },
+  ]
+  const sports = [
+    {
+      id: 1,
+      name: '籃球',
+      iconKey: 'basketball',
+    },
+    {
+      id: 2,
+      name: '羽球',
+      iconKey: 'badminton',
+    },
+    {
+      id: 3,
+      name: '桌球',
+      iconKey: 'tabletennis',
+    },
+    {
+      id: 4,
+      name: '網球',
+      iconKey: 'tennis',
+    },
+    {
+      id: 5,
+      name: '排球',
+      iconKey: 'volleyball',
+    },
+    {
+      id: 6,
+      name: '壁球',
+      iconKey: 'squash',
+    },
+    {
+      id: 7,
+      name: '足球',
+      iconKey: 'soccer',
+    },
+    {
+      id: 8,
+      name: '棒球',
+      iconKey: 'baseball',
+    },
+    {
+      id: 9,
+      name: '撞球',
+      iconKey: 'billiard',
     },
   ]
 

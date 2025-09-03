@@ -105,7 +105,7 @@ function RatingSection({ centerId }) {
   const [initialLoading, setInitialLoading] = React.useState(true)
 
   // 初次載入評論
-  React.useEffect(() => {
+  /* React.useEffect(() => {
     const fetchInitialRatings = async () => {
       try {
         setInitialLoading(true)
@@ -128,7 +128,7 @@ function RatingSection({ centerId }) {
     if (centerId) {
       fetchInitialRatings()
     }
-  }, [centerId])
+  }, [centerId]) */
 
   // 載入更多評論
   const handleLoadMore = async () => {
@@ -336,13 +336,21 @@ export default function CenterDetailPage() {
   const router = useRouter()
   const { setVenueData } = useVenue()
 
+  // 在 client-side 取得當前 URL，避免 SSR 階段存取 window
+  const [currentUrl, setCurrentUrl] = useState('')
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setCurrentUrl(window.location.href)
+    }
+  }, [])
+
   // #region 組件狀態管理
-  const [data, setData] = useState(null)
+  // const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   // #region 副作用處理
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchCenterData = async () => {
       try {
         setLoading(true)
@@ -361,7 +369,7 @@ export default function CenterDetailPage() {
     if (id) {
       fetchCenterData()
     }
-  }, [id])
+  }, [id]) */
 
   // #region 事件處理函數
   const handleReservation = (e) => {
@@ -392,7 +400,7 @@ export default function CenterDetailPage() {
   }
 
   //  #region 載入和錯誤狀態處理
-  if (loading) {
+  /* if (loading) {
     return <LoadingState message="載入場館資料中..." />
   }
 
@@ -424,8 +432,408 @@ export default function CenterDetailPage() {
         backLabel="返回場館列表"
       />
     )
+  } */
+  const data = {
+    id: 1,
+    name: '北投運動中心',
+    locationId: 1,
+    address: '台北市北投區石牌路一段39巷100號',
+    latitude: 25.11669482631824,
+    longitude: 121.5099281673907,
+    location: {
+      id: 1,
+      name: '台北市',
+    },
+    centerSports: [
+      {
+        centerId: 1,
+        sportId: 2,
+        sport: {
+          id: 2,
+          name: '羽球',
+          iconKey: 'badminton',
+        },
+      },
+      {
+        centerId: 1,
+        sportId: 3,
+        sport: {
+          id: 3,
+          name: '桌球',
+          iconKey: 'tabletennis',
+        },
+      },
+      {
+        centerId: 1,
+        sportId: 5,
+        sport: {
+          id: 5,
+          name: '排球',
+          iconKey: 'volleyball',
+        },
+      },
+      {
+        centerId: 1,
+        sportId: 6,
+        sport: {
+          id: 6,
+          name: '壁球',
+          iconKey: 'squash',
+        },
+      },
+      {
+        centerId: 1,
+        sportId: 7,
+        sport: {
+          id: 7,
+          name: '足球',
+          iconKey: 'soccer',
+        },
+      },
+      {
+        centerId: 1,
+        sportId: 8,
+        sport: {
+          id: 8,
+          name: '棒球',
+          iconKey: 'baseball',
+        },
+      },
+    ],
+    images: [
+      'center01.jpg',
+      'center01-1.jpg',
+      'center01-2.jpg',
+      'center01-3.jpg',
+      'center01-4.jpg',
+    ],
+    ratings: [
+      {
+        member: {
+          id: '20',
+          email: 'user20_DZbAY@example.com',
+          password:
+            '$2b$10$dzcDwmarK4sLr3ifATqlo./v9LozunDm3RJmL5/STBEPKF54PAOSm',
+          name: '劉冠廷',
+          phone: '0964616666',
+          gender: 'male',
+          birth: '1990-08-14T00:00:00.000Z',
+          avatar: null,
+          address: '花蓮縣',
+          isActive: true,
+          emailVerified: true,
+          phoneVerified: false,
+          role: 'user',
+          firebaseUid: null,
+          createdAt: '2025-08-26T12:00:26.641Z',
+          updatedAt: '2025-08-26T12:00:26.641Z',
+        },
+        rating: 4,
+        comment: '工作人員很親切，服務很周到',
+        createdAt: '2025-08-03T18:13:53.281Z',
+      },
+      {
+        member: {
+          id: '24',
+          email: 'user24_d2aTh@example.com',
+          password:
+            '$2b$10$PyuH6fgX2k4WW615zA0f0uumIB1QZIV2R3WqFVVK1hVr33W2lF84O',
+          name: '沈冠宇',
+          phone: '0971767335',
+          gender: 'none',
+          birth: '1986-02-21T00:00:00.000Z',
+          avatar: null,
+          address: '南投縣',
+          isActive: true,
+          emailVerified: false,
+          phoneVerified: true,
+          role: 'user',
+          firebaseUid: null,
+          createdAt: '2025-08-26T12:00:26.641Z',
+          updatedAt: '2025-08-26T12:00:26.641Z',
+        },
+        rating: 3,
+        comment: '有專業的體適能檢測，很貼心',
+        createdAt: '2025-05-10T02:17:31.375Z',
+      },
+      {
+        member: {
+          id: '27',
+          email: 'user27_khU48@example.com',
+          password:
+            '$2b$10$4OLzjTurmdabLuoGfzW1OewYaLFSPQysJtS8dmJ5X7zkMX8AgAUxq',
+          name: '韓鈺婷',
+          phone: '0972020287',
+          gender: 'male',
+          birth: '1988-01-08T00:00:00.000Z',
+          avatar: null,
+          address: '臺中市',
+          isActive: false,
+          emailVerified: false,
+          phoneVerified: true,
+          role: 'user',
+          firebaseUid: null,
+          createdAt: '2025-08-26T12:00:26.641Z',
+          updatedAt: '2025-08-26T12:00:26.641Z',
+        },
+        rating: 3,
+        comment: null,
+        createdAt: '2025-02-08T19:55:30.361Z',
+      },
+      {
+        member: {
+          id: '31',
+          email: 'user31_DlRMW@example.com',
+          password:
+            '$2b$10$mEd0wb49mMUd08hGrF25Eu8djZkOhSrZu6wmLaEgNnQW5d7gwcAYu',
+          name: '吳怡婷',
+          phone: '0992230655',
+          gender: 'male',
+          birth: '1985-03-23T00:00:00.000Z',
+          avatar: null,
+          address: '嘉義市',
+          isActive: true,
+          emailVerified: true,
+          phoneVerified: true,
+          role: 'user',
+          firebaseUid: null,
+          createdAt: '2025-08-26T12:00:26.641Z',
+          updatedAt: '2025-08-26T12:00:26.641Z',
+        },
+        rating: 5,
+        comment: '運動氛圍很好，大家都很友善',
+        createdAt: '2025-05-25T06:27:46.906Z',
+      },
+      {
+        member: {
+          id: '36',
+          email: 'user36_EIKbX@example.com',
+          password:
+            '$2b$10$7iDpLjYb3Zu2TClRrVEBM.VwOxFdmNux4K.51DnuLJrJglgrnzi9S',
+          name: '張詩涵',
+          phone: '0944998600',
+          gender: 'female',
+          birth: '2007-10-28T00:00:00.000Z',
+          avatar: null,
+          address: '苗栗縣',
+          isActive: true,
+          emailVerified: true,
+          phoneVerified: false,
+          role: 'user',
+          firebaseUid: null,
+          createdAt: '2025-08-26T12:00:26.641Z',
+          updatedAt: '2025-08-26T12:00:26.641Z',
+        },
+        rating: 4,
+        comment: null,
+        createdAt: '2025-06-01T17:07:18.616Z',
+      },
+      {
+        member: {
+          id: '37',
+          email: 'user37_N3F4A@example.com',
+          password:
+            '$2b$10$dt6ivwLW5g6kSy5aIVCxueed8peyii9/0tpYQm31YUdFrCB/sOU.u',
+          name: '徐雅筑',
+          phone: '0910632919',
+          gender: 'male',
+          birth: '1981-12-02T00:00:00.000Z',
+          avatar: null,
+          address: '桃園市',
+          isActive: true,
+          emailVerified: false,
+          phoneVerified: true,
+          role: 'user',
+          firebaseUid: null,
+          createdAt: '2025-08-26T12:00:26.641Z',
+          updatedAt: '2025-08-26T12:00:26.641Z',
+        },
+        rating: 1,
+        comment: null,
+        createdAt: '2025-06-08T11:23:19.404Z',
+      },
+      {
+        member: {
+          id: '49',
+          email: 'user49_YiAbd@example.com',
+          password:
+            '$2b$10$xA2DVY3mKnlacOxAzvWtDuaySPhqMUDkIOX3EaJxDIwyC7tIUNts6',
+          name: '蕭怡君',
+          phone: '0922405750',
+          gender: 'female',
+          birth: '2009-07-17T00:00:00.000Z',
+          avatar: null,
+          address: '基隆市',
+          isActive: false,
+          emailVerified: true,
+          phoneVerified: false,
+          role: 'user',
+          firebaseUid: null,
+          createdAt: '2025-08-26T12:00:26.641Z',
+          updatedAt: '2025-08-26T12:00:26.641Z',
+        },
+        rating: 3,
+        comment: '有專業的體適能檢測，很貼心',
+        createdAt: '2025-05-02T09:01:23.775Z',
+      },
+      {
+        member: {
+          id: '67',
+          email: 'user67_mgSvn@example.com',
+          password:
+            '$2b$10$P9KfI0q/kUb45uAS7gk4Jek69W757mF5B9MayFZ4nOu4OpfyjJqva',
+          name: '高怡婷',
+          phone: '0974670173',
+          gender: 'female',
+          birth: '2005-09-17T00:00:00.000Z',
+          avatar: null,
+          address: '彰化縣',
+          isActive: false,
+          emailVerified: false,
+          phoneVerified: false,
+          role: 'user',
+          firebaseUid: null,
+          createdAt: '2025-08-26T12:00:26.641Z',
+          updatedAt: '2025-08-26T12:00:26.641Z',
+        },
+        rating: 5,
+        comment: null,
+        createdAt: '2025-06-10T14:04:56.584Z',
+      },
+      {
+        member: {
+          id: '68',
+          email: 'user68_Fln6q@example.com',
+          password:
+            '$2b$10$EyXkwgPlJz3/ZzjrvjBQUOJsbQYlHjKYdM75pqI002Hwc.PwgCM6K',
+          name: '梁冠宇',
+          phone: '0990505633',
+          gender: 'male',
+          birth: '1991-03-12T00:00:00.000Z',
+          avatar:
+            'https://tw.portal-pokemon.com/play/resources/pokedex/img/pm/f3868a6a16c75d75435819deab8bab97926fc54c.png',
+          address: '彰化縣',
+          isActive: false,
+          emailVerified: false,
+          phoneVerified: true,
+          role: 'user',
+          firebaseUid: null,
+          createdAt: '2025-08-26T12:00:26.641Z',
+          updatedAt: '2025-08-26T12:00:26.641Z',
+        },
+        rating: 4,
+        comment: null,
+        createdAt: '2025-06-24T21:41:47.463Z',
+      },
+      {
+        member: {
+          id: '77',
+          email: 'user77_6hDto@example.com',
+          password:
+            '$2b$10$zsf/.yI/.g0d1adDIDpjjOmAWHHtyRyr9Q242g.M7U1jmtFj0wSwC',
+          name: '周怡婷',
+          phone: '0944444894',
+          gender: 'male',
+          birth: '1986-05-14T00:00:00.000Z',
+          avatar:
+            'https://tw.portal-pokemon.com/play/resources/pokedex/img/pm/cd2282e3ecef2ea7889594f954f7f04865bc48e4.png',
+          address: '嘉義市',
+          isActive: true,
+          emailVerified: false,
+          phoneVerified: true,
+          role: 'user',
+          firebaseUid: null,
+          createdAt: '2025-08-26T12:00:26.641Z',
+          updatedAt: '2025-08-26T12:00:26.641Z',
+        },
+        rating: 3,
+        comment: '燈光明亮，視野很清楚',
+        createdAt: '2025-03-26T00:53:33.390Z',
+      },
+      {
+        member: {
+          id: '95',
+          email: 'user95_dx4yP@example.com',
+          password:
+            '$2b$10$pcPBf01T.frxAU5sND83FOu/sycUtGoUJpCI3XXC1CgVASiHDKYlS',
+          name: '孫詩涵',
+          phone: '0977635886',
+          gender: 'male',
+          birth: '1983-03-14T00:00:00.000Z',
+          avatar: null,
+          address: '臺東縣',
+          isActive: true,
+          emailVerified: false,
+          phoneVerified: true,
+          role: 'user',
+          firebaseUid: null,
+          createdAt: '2025-08-26T12:00:26.641Z',
+          updatedAt: '2025-08-26T12:00:26.641Z',
+        },
+        rating: 4,
+        comment: null,
+        createdAt: '2025-04-22T06:07:49.662Z',
+      },
+      {
+        member: {
+          id: '102',
+          email: 'user@gmail.com',
+          password:
+            '$2b$10$8qCuUNAMMG1n8sf9iskYVuC5jSF5d5VFwRt7muSb78O4nnbquD5d.',
+          name: '一般用戶',
+          phone: '0912345678',
+          gender: 'female',
+          birth: '1995-01-29T00:00:00.000Z',
+          avatar: 'avatar-102-1755831812486-610451110.jpg',
+          address: null,
+          isActive: true,
+          emailVerified: false,
+          phoneVerified: false,
+          role: 'user',
+          firebaseUid: null,
+          createdAt: '2025-08-26T12:00:26.641Z',
+          updatedAt: '2025-08-26T12:00:26.641Z',
+        },
+        rating: 1,
+        comment: '很差',
+        createdAt: '2025-08-26T12:50:40.683Z',
+      },
+    ],
+    sports: [
+      {
+        id: 2,
+        name: '羽球',
+        iconKey: 'badminton',
+      },
+      {
+        id: 3,
+        name: '桌球',
+        iconKey: 'tabletennis',
+      },
+      {
+        id: 5,
+        name: '排球',
+        iconKey: 'volleyball',
+      },
+      {
+        id: 6,
+        name: '壁球',
+        iconKey: 'squash',
+      },
+      {
+        id: 7,
+        name: '足球',
+        iconKey: 'soccer',
+      },
+      {
+        id: 8,
+        name: '棒球',
+        iconKey: 'baseball',
+      },
+    ],
+    averageRating: '3.3',
+    ratingCount: 12,
   }
-
   // #region 資料顯示選項
   const sportIconMap = {
     basketball: BasketballIcon,
@@ -536,17 +944,17 @@ export default function CenterDetailPage() {
                     </PopoverTrigger>
                     <PopoverContent className="w-fit px-2 py-2">
                       <div className="flex flex-row gap-2 w-full sm:w-auto">
-                        <FacebookShareButton url={window.location.href}>
+                        <FacebookShareButton url={currentUrl || ''}>
                           {/* <FaFacebook size={30} color="#1f7bf2" /> */}
                           <FacebookIcon size={32} round />
                         </FacebookShareButton>
-                        <LineShareButton url={window.location.href}>
+                        <LineShareButton url={currentUrl || ''}>
                           <LineIcon size={32} round />
                         </LineShareButton>
-                        <TwitterShareButton url={window.location.href}>
+                        <TwitterShareButton url={currentUrl || ''}>
                           <XIcon size={32} round />
                         </TwitterShareButton>
-                        <ThreadsShareButton url={window.location.href}>
+                        <ThreadsShareButton url={currentUrl || ''}>
                           <ThreadsIcon size={32} round />
                         </ThreadsShareButton>
                       </div>

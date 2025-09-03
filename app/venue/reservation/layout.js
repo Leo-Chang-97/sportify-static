@@ -8,7 +8,7 @@ function AuthGuard({ children }) {
   const router = useRouter()
   const pathname = usePathname()
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!isLoading) {
       if (!isAuthenticated) {
         // 未登入，重導向到登入頁
@@ -18,7 +18,7 @@ function AuthGuard({ children }) {
   }, [isAuthenticated, isLoading, user, pathname, router])
 
   if (isLoading) return null // 或 return <LoadingSpinner />
-  if (!isAuthenticated) return null
+  if (!isAuthenticated) return null */
 
   return children
 }
